@@ -1,49 +1,16 @@
-# Fullstack Authentication Example with Next.js and NextAuth.js
+# Dev Container example
 
-This example shows how to implement a **fullstack app in TypeScript with [Next.js](https://nextjs.org/)** using
-[React](https://reactjs.org/) (frontend), [Next.js API routes](https://nextjs.org/docs/api-routes/introduction) and
-[Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client) (backend). It also demonstrates
-how to implement authentication using [NextAuth.js](https://next-auth.js.org/). The example uses an SQLite database file
-with some initial dummy data which you can find at [`./prisma/dev.db`](./prisma/dev.db).
-
-Note that the app uses a mix of server-side rendering with `getServerSideProps` (SSR) and static site generation with
-`getStaticProps` (SSG). When possible, SSG is used to make database queries already at build-time (e.g. when fetching
-the [public feed](./pages/index.tsx)). Sometimes, the user requesting data needs to be authenticated, so SSR is being
-used to render data dynamically on the server-side (e.g. when viewing a user's [drafts](./pages/drafts.tsx)).
+This repository demonstrates how Dev Containers could be used to simplify the _local_ development experience. It
+contains a [Next.js](https://nextjs.org/) app connected to a [Postgres](http://postgresql.org/) database via the
+[Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
 
 ## Getting started
 
 ### 1. Download example and install dependencies
 
-Download this example:
+Open this project in either Codespaces or locally in VS Code using Dev Containers.
 
-```
-npx try-prisma --template rest-nextjs-api-routes-auth
-```
-
-Install npm dependencies:
-
-```
-cd rest-nextjs-api-routes-auth
-npm install
-```
-
-<details><summary><strong>Alternative:</strong> Clone the entire repo</summary>
-
-Clone this repository:
-
-```
-git clone git@github.com:prisma/prisma-examples.git --depth=1
-```
-
-Install npm dependencies:
-
-```
-cd prisma-examples/typescript/rest-nextjs-api-routes-auth
-npm install
-```
-
-</details>
+> **Note** The initial Dev Container setup may be slower to allow for dependencies to be downloaded and installed.
 
 ### 2. Create and seed the database
 
