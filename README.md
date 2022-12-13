@@ -10,7 +10,9 @@ contains a [Next.js](https://nextjs.org/) app connected to a [Postgres](http://p
 
 Open this project in either Codespaces or locally in VS Code using Dev Containers.
 
-> **Note** The initial Dev Container setup may be slower to allow for dependencies to be downloaded and installed.
+> **Note**
+>
+> The initial Dev Container setup may be slower to allow for dependencies to be downloaded and installed.
 
 ### 2. Create and seed the database
 
