@@ -1,19 +1,18 @@
-import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { signOut, useSession } from "next-auth/react";
+import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { signOut, useSession } from 'next-auth/react';
 
 const Header: React.FC = () => {
   const router = useRouter();
-  const isActive: (pathname: string) => boolean = (pathname) =>
-    router.pathname === pathname;
+  const isActive: (pathname: string) => boolean = pathname => router.pathname === pathname;
 
-  const {data: session, status} = useSession();
+  const { data: session, status } = useSession();
 
   let left = (
     <div className="left">
       <Link href="/" legacyBehavior>
-        <a className="bold" data-active={isActive("/")}>
+        <a className="bold" data-active={isActive('/')}>
           Feed
         </a>
       </Link>
@@ -28,7 +27,7 @@ const Header: React.FC = () => {
           display: inline-block;
         }
 
-        .left a[data-active="true"] {
+        .left a[data-active='true'] {
           color: gray;
         }
 
@@ -45,7 +44,7 @@ const Header: React.FC = () => {
     left = (
       <div className="left">
         <Link href="/" legacyBehavior>
-          <a className="bold" data-active={isActive("/")}>
+          <a className="bold" data-active={isActive('/')}>
             Feed
           </a>
         </Link>
@@ -60,7 +59,7 @@ const Header: React.FC = () => {
             display: inline-block;
           }
 
-          .left a[data-active="true"] {
+          .left a[data-active='true'] {
             color: gray;
           }
 
@@ -86,7 +85,7 @@ const Header: React.FC = () => {
     right = (
       <div className="right">
         <Link href="/api/auth/signin" legacyBehavior>
-          <a data-active={isActive("/signup")}>Log in</a>
+          <a data-active={isActive('/signup')}>Log in</a>
         </Link>
         <style jsx>{`
           a {
@@ -117,12 +116,12 @@ const Header: React.FC = () => {
     left = (
       <div className="left">
         <Link href="/" legacyBehavior>
-          <a className="bold" data-active={isActive("/")}>
+          <a className="bold" data-active={isActive('/')}>
             Feed
           </a>
         </Link>
         <Link href="/drafts" legacyBehavior>
-          <a data-active={isActive("/drafts")}>My drafts</a>
+          <a data-active={isActive('/drafts')}>My drafts</a>
         </Link>
         <style jsx>{`
           .bold {
@@ -135,7 +134,7 @@ const Header: React.FC = () => {
             display: inline-block;
           }
 
-          .left a[data-active="true"] {
+          .left a[data-active='true'] {
             color: gray;
           }
 
