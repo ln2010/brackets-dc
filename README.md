@@ -8,15 +8,19 @@ contains a [Next.js](https://nextjs.org/) app connected to a [Postgres](http://p
 
 ### 1. Download example and install dependencies
 
-Open this project in either Codespaces or locally in VS Code using Dev Containers.
+Open this project locally in VS Code using Dev Containers.
 
 > **Note**
 >
-> The initial Dev Container setup may be slower to allow for dependencies to be downloaded and installed.
+> The initial Dev Container setup will download and install dependencies.
 
 ### 2. Create and seed the database
 
-Run the following command to create your SQLite database file. This also creates the `User` and `Post` tables that are
+> **Note**
+>
+> The Dev Container setup will then intialise your database by ...
+
+Run(ing) the following command to create your Postgres database. This also creates the `User` and `Post` tables that are
 defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
 
 ```
@@ -71,6 +75,8 @@ You can
 [follow the instructions in the NextAuth.js documentation](https://next-auth.js.org/providers/email#configuration) to
 configure the Email authentication provider. Once your email authentication provider is configured, you can set the
 environment variables in [`.env`](./env) accordingly.
+
+Restart your devcontainer to use the new environment variables.
 
 ### 4. Start the app
 
