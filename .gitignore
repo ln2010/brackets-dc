@@ -2,6 +2,7 @@ node_modules/
 .next/
 
 .env
+.env.docker.local
 
 *.db
 *.db-journal
