@@ -76,7 +76,10 @@ You can
 configure the Email authentication provider. Once your email authentication provider is configured, you can set the
 environment variables in [`.env`](./env) accordingly.
 
-Restart your devcontainer to use the new environment variables.
+> **Note**
+>
+> `.env` files are additive. the `.env.docker.local` has some dev config for you, however you should store the GitHub
+> secrets in a `.env` file which is not committed (because of the .gitignore file).
 
 ### 4. Start the app
 
