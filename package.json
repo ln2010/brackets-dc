@@ -9,6 +9,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "start-db": "./scripts/db-up.sh",
     "pretty": "prettier . --write --loglevel warn"
   },
   "dependencies": {
