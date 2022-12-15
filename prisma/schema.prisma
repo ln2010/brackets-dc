@@ -71,3 +71,26 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verificationtokens")
 }
+
+model Player {
+  id          Int           @id @default(autoincrement())
+  name        String
+  teams TeamPlayers[]
+}
+
+model Team {
+  id      Int           @id @default(autoincrement())
+  name    String
+  players TeamPlayers[]
+}
+
+model TeamPlayers {
+  player     Player   @relation(fields: [playerId], references: [id])
+  playerId   Int // relation scalar field (used in the `@relation` attribute above)
+  team       Team     @relation(fields: [teamId], references: [id])
+  teamId     Int // relation scalar field (used in the `@relation` attribute above)
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([playerId, teamId])
+}
