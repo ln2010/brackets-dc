@@ -9,8 +9,9 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "start-db": "./scripts/db-up.sh",
-    "pretty": "prettier . --write --loglevel warn"
+    "pretty": "prettier . --write --loglevel warn",
+    "generate-db": "prisma generate",
+    "start-db": "./scripts/db-up.sh"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "1.0.5",
