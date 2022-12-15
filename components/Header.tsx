@@ -13,7 +13,7 @@ const Header: React.FC = () => {
     <div className="left">
       <Link href="/" legacyBehavior>
         <a className="bold" data-active={isActive('/')}>
-          Feed
+          Tournaments
         </a>
       </Link>
       <style jsx>{`
@@ -45,7 +45,7 @@ const Header: React.FC = () => {
       <div className="left">
         <Link href="/" legacyBehavior>
           <a className="bold" data-active={isActive('/')}>
-            Feed
+            Tournaments
           </a>
         </Link>
         <style jsx>{`
@@ -117,12 +117,12 @@ const Header: React.FC = () => {
       <div className="left">
         <Link href="/" legacyBehavior>
           <a className="bold" data-active={isActive('/')}>
-            Feed
+            Tournaments
           </a>
         </Link>
-        <Link href="/drafts" legacyBehavior>
+        {/* <Link href="/drafts" legacyBehavior>
           <a data-active={isActive('/drafts')}>My drafts</a>
-        </Link>
+        </Link> */}
         <style jsx>{`
           .bold {
             font-weight: bold;
@@ -149,11 +149,16 @@ const Header: React.FC = () => {
         <p>
           {session.user.name} ({session.user.email})
         </p>
-        <Link href="/create" legacyBehavior>
+        <Link href="/create_tournament" legacyBehavior>
+          <button>
+            <a>New tournament</a>
+          </button>
+        </Link>
+        {/* <Link href="/create" legacyBehavior>
           <button>
             <a>New post</a>
           </button>
-        </Link>
+        </Link> */}
         <button onClick={() => signOut()}>
           <a>Log out</a>
         </button>

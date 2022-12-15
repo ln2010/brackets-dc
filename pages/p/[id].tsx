@@ -3,62 +3,64 @@ import { GetServerSideProps } from 'next';
 import ReactMarkdown from 'react-markdown';
 import Layout from '../../components/Layout';
 import Router from 'next/router';
-import { PostProps } from '../../components/Post';
+import { TournamentProps } from '../../components/Tournament';
 import prisma from '../../lib/prisma';
 import { useSession } from 'next-auth/react';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const post = await prisma.post.findUnique({
+  const tournament = await prisma.tournament.findUnique({
     where: {
       id: Number(params?.id) || -1,
     },
-    include: {
-      author: {
-        select: { name: true, email: true },
-      },
-    },
   });
+
   return {
-    props: post,
+    props: { tournament: JSON.parse(JSON.stringify(tournament)) },
   };
 };
 
-async function publishPost(id: number): Promise<void> {
+async function publishTournament(id: number): Promise<void> {
   await fetch(`/api/publish/${id}`, {
     method: 'PUT',
   });
   await Router.push('/');
 }
 
-async function deletePost(id: number): Promise<void> {
-  await fetch(`/api/post/${id}`, {
+async function deleteTournament(id: number): Promise<void> {
+  await fetch(`/api/tournament/${id}`, {
     method: 'DELETE',
   });
   await Router.push('/');
 }
 
-const Post: React.FC<PostProps> = props => {
+const Tournament: React.FC<TournamentProps> = props => {
   const { data: session, status } = useSession();
+
   if (status === 'loading') {
     return <div>Authenticating ...</div>;
   }
+  console.log('two ', props);
+
   const userHasValidSession = Boolean(session);
-  const postBelongsToUser = session?.user?.email === props.author?.email;
-  let title = props.title;
-  if (!props.published) {
-    title = `${title} (Draft)`;
-  }
+  // const tournamentBelongsToUser = session?.user?.email === props.author?.email;
+  // if (!props.published) {
+  //   title = `${title} (Draft)`;
+  // }
 
   return (
     <Layout>
       <div>
-        <h2>{title}</h2>
-        <p>By {props?.author?.name || 'Unknown author'}</p>
-        <ReactMarkdown children={props.content} />
-        {!props.published && userHasValidSession && postBelongsToUser && (
-          <button onClick={() => publishPost(props.id)}>Publish</button>
-        )}
-        {userHasValidSession && postBelongsToUser && <button onClick={() => deletePost(props.id)}>Delete</button>}
+        <h2>{props?.tournament?.name}</h2>
+        <p>By {props?.tournament?.owner?.name || 'Unknown owner'}</p>
+        <ReactMarkdown children={props.tournament.description} />
+        {/* {!props.published && userHasValidSession && tournamentBelongsToUser && (
+          <button onClick={() => publishTournament(props.id)}>Publish</button>
+        )} */}
+        {/* {userHasValidSession && tournamentBelongsToUser && (
+          <button onClick={() => deleteTournament(props.id)}>Delete</button>
+        )} */}
+        {/* <Players></Players> */}
+        {/* <Teams></Teams> */}
       </div>
       <style jsx>{`
         .page {
@@ -85,4 +87,4 @@ const Post: React.FC<PostProps> = props => {
   );
 };
 
-export default Post;
+export default Tournament;

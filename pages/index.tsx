@@ -1,55 +1,45 @@
 import React from 'react';
 import type { GetServerSideProps } from 'next';
 import Layout from '../components/Layout';
-import Post, { PostProps } from '../components/Post';
+import Tournament, { TournamentProps } from '../components/Tournament';
 import prisma from '../lib/prisma';
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const feed = await prisma.post.findMany({
-    where: {
-      published: true,
-    },
-    include: {
-      author: {
-        select: {
-          name: true,
-        },
-      },
-    },
+  const tournaments = await prisma.tournament.findMany({
+    include: { players: true },
   });
   return {
-    props: { feed },
+    props: { tournaments: JSON.parse(JSON.stringify(tournaments)) },
   };
 };
 
 type Props = {
-  feed: PostProps[];
+  tournaments: TournamentProps[];
 };
-
-const Blog: React.FC<Props> = props => {
+const Tournaments: React.FC<Props> = props => {
   return (
     <Layout>
       <div className="page">
-        <h1>Public Feed</h1>
+        <h1>Tournaments</h1>
         <main>
-          {props.feed.map(post => (
-            <div key={post.id} className="post">
-              <Post post={post} />
+          {props.tournaments.map(tournament => (
+            <div key={tournament.id} className="tournament">
+              <Tournament tournament={tournament} />
             </div>
           ))}
         </main>
       </div>
       <style jsx>{`
-        .post {
+        .tournament {
           background: white;
           transition: box-shadow 0.1s ease-in;
         }
 
-        .post:hover {
+        .tournament:hover {
           box-shadow: 1px 1px 3px #aaa;
         }
 
-        .post + .post {
+        .tournament + .tournament {
           margin-top: 2rem;
         }
       `}</style>
@@ -57,4 +47,4 @@ const Blog: React.FC<Props> = props => {
   );
 };
 
-export default Blog;
+export default Tournaments;

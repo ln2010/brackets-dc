@@ -73,9 +73,11 @@ model VerificationToken {
 }
 
 model Player {
-  id          Int           @id @default(autoincrement())
-  name        String
-  teams TeamPlayers[]
+  id           Int           @id @default(autoincrement())
+  name         String
+  teams        TeamPlayers[]
+  tournament   Tournament    @relation(fields: [tournamentId], references: [id])
+  tournamentId Int
 }
 
 model Team {
@@ -93,4 +95,12 @@ model TeamPlayers {
   assignedBy String
 
   @@id([playerId, teamId])
+}
+
+model Tournament {
+  id        Int      @id @default(autoincrement())
+  name      String
+  description String?
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  players    Player[]
 }
