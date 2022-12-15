@@ -14,6 +14,9 @@ Open this project locally in VS Code using Dev Containers.
 >
 > The initial Dev Container setup will download and install dependencies.
 
+> **Outside dev container**
+> Run `npm run start-db` and make sure your connection string is pointing to local `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/example`
+
 ### 2. Create and seed the database
 
 > **Note**
