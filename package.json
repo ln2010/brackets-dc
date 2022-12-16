@@ -9,6 +9,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "postinstall": "prisma generate",
     "pretty": "prettier . --write --loglevel warn",
     "generate-db": "prisma generate",
     "start-db": "./scripts/db-up.sh"
