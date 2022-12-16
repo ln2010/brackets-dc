@@ -6,12 +6,14 @@ import Router from 'next/router';
 import { TournamentProps } from '../../components/Tournament';
 import prisma from '../../lib/prisma';
 import { useSession } from 'next-auth/react';
+import Owners from '../../components/Owners';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const tournament = await prisma.tournament.findUnique({
     where: {
       id: Number(params?.id) || -1,
     },
+    include: { players: true, owners: { select: { id: true, name: true, email: true } } },
   });
 
   return {
@@ -35,13 +37,13 @@ async function deleteTournament(id: number): Promise<void> {
 
 const Tournament: React.FC<TournamentProps> = props => {
   const { data: session, status } = useSession();
-
+  // console.log(props);
   if (status === 'loading') {
     return <div>Authenticating ...</div>;
   }
 
   const userHasValidSession = Boolean(session);
-  // const tournamentBelongsToUser = session?.user?.email === props.author?.email;
+  const tournamentBelongsToUser = props.owners?.some(owner => owner.email === session?.user?.email);
   // if (!props.published) {
   //   title = `${title} (Draft)`;
   // }
@@ -50,7 +52,9 @@ const Tournament: React.FC<TournamentProps> = props => {
     <Layout>
       <div>
         <h2>{props.name}</h2>
-        {/* <p>By {props.owner?.name || 'Unknown owner'}</p> */}
+        <p>
+          By <Owners owners={props.owners} />
+        </p>
         <ReactMarkdown children={props.description} />
         {/* {!props.published && userHasValidSession && tournamentBelongsToUser && (
           <button onClick={() => publishTournament(props.id)}>Publish</button>
