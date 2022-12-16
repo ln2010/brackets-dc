@@ -23,7 +23,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 			data: {
 				owners: {
 					connect: {
-						email: session?.user?.email,
+						email: session?.user?.email!,
 					},
 				},
 			},
