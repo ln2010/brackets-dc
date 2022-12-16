@@ -39,7 +39,6 @@ const Tournament: React.FC<TournamentProps> = props => {
   if (status === 'loading') {
     return <div>Authenticating ...</div>;
   }
-  console.log('two ', props);
 
   const userHasValidSession = Boolean(session);
   // const tournamentBelongsToUser = session?.user?.email === props.author?.email;

@@ -16,6 +16,18 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 				description,
 			},
 		});
+		const tournament = await prisma.tournament.update({
+			where: {
+				id: result.id,
+			},
+			data: {
+				owners: {
+					connect: {
+						email: session?.user?.email,
+					},
+				},
+			},
+		});
 		res.json(result);
 	} else {
 		res.status(401).send({ message: 'Unauthorized' });

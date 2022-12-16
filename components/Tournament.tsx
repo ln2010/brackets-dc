@@ -7,6 +7,10 @@ export type TournamentProps = {
   id: number;
   name: string;
   description: string;
+  owners: {
+    id: number;
+    name: string;
+  }[];
 };
 
 const Tournament: React.FC<{ tournament: TournamentProps }> = ({ tournament }) => {
@@ -14,7 +18,21 @@ const Tournament: React.FC<{ tournament: TournamentProps }> = ({ tournament }) =
   return (
     <div onClick={() => Router.push('/p/[id]', `/p/${tournament.id}`)}>
       <h2>{tournament.name}</h2>
-      {/* <small>By {authorName}</small> */}
+      {tournament.owners.length > 0 ? (
+        <small>
+          By{' '}
+          {tournament.owners.map((owner, index) => (
+            <span key={owner.id} className="owner">
+              {owner.name}
+              {index! < tournament.owners.length - 2 && ', '}
+              {index == tournament.owners.length - 2 && ' and '}
+            </span>
+          ))}
+        </small>
+      ) : (
+        <small>No Owner</small>
+      )}
+
       <ReactMarkdown children={tournament.description} />
       <style jsx>{`
         div {

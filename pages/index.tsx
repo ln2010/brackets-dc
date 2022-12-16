@@ -6,7 +6,7 @@ import prisma from '../lib/prisma';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const tournaments = await prisma.tournament.findMany({
-    include: { players: true },
+    include: { players: true, owners: { select: { id: true, name: true } } },
   });
   return {
     props: { tournaments: JSON.parse(JSON.stringify(tournaments)) },

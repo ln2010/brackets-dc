@@ -49,16 +49,17 @@ model Session {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  posts         Post[]
-  accounts      Account[]
-  sessions      Session[]
+  id               Int          @id @default(autoincrement())
+  name             String?
+  email            String?      @unique
+  emailVerified    DateTime?    @map("email_verified")
+  image            String?
+  createdAt        DateTime     @default(now()) @map(name: "created_at")
+  updatedAt        DateTime     @updatedAt @map(name: "updated_at")
+  posts            Post[]
+  accounts         Account[]
+  sessions         Session[]
+  ownedTournaments Tournament[]
 
   @@map(name: "users")
 }
@@ -98,9 +99,10 @@ model TeamPlayers {
 }
 
 model Tournament {
-  id        Int      @id @default(autoincrement())
-  name      String
+  id          Int      @id @default(autoincrement())
+  name        String
   description String?
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  players    Player[]
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  players     Player[]
+  owners      User[]
 }
