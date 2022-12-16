@@ -5,9 +5,12 @@ import Router from 'next/router';
 const Draft: React.FC = () => {
   const [name, setTitle] = useState('');
   const [description, setContent] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setSubmitting(true);
+
     try {
       const body = { name, description };
       await fetch(`/api/tournament`, {
@@ -18,6 +21,8 @@ const Draft: React.FC = () => {
       await Router.push('/');
     } catch (error) {
       console.error(error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -34,7 +39,7 @@ const Draft: React.FC = () => {
             rows={8}
             value={description}
           />
-          <input disabled={!description || !name} type="submit" value="Create" />
+          <input disabled={!description || !name || submitting} type="submit" value="Create" />
           <a className="back" href="#" onClick={() => Router.push('/')}>
             or Cancel
           </a>
