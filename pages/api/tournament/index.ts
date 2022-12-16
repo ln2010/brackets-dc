@@ -14,13 +14,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 			data: {
 				name,
 				description,
-			},
-		});
-		const tournament = await prisma.tournament.update({
-			where: {
-				id: result.id,
-			},
-			data: {
 				owners: {
 					connect: {
 						email: session?.user?.email!,
