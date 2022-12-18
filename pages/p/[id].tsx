@@ -6,11 +6,17 @@ import Router from 'next/router';
 import { TournamentProps } from '../../components/Tournament';
 import prisma from '../../lib/prisma';
 import { useSession } from 'next-auth/react';
+import Owners from '../../components/Owners';
+import Players from '../../components/Tournament/Players';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const tournament = await prisma.tournament.findUnique({
     where: {
       id: Number(params?.id) || -1,
+    },
+    include: {
+      players: { select: { id: true, name: true } },
+      owners: { select: { id: true, name: true, email: true } },
     },
   });
 
@@ -35,22 +41,27 @@ async function deleteTournament(id: number): Promise<void> {
 
 const Tournament: React.FC<TournamentProps> = props => {
   const { data: session, status } = useSession();
-
+  // console.log(props);
   if (status === 'loading') {
     return <div>Authenticating ...</div>;
   }
 
   const userHasValidSession = Boolean(session);
-  // const tournamentBelongsToUser = session?.user?.email === props.author?.email;
+  const tournamentBelongsToUser = props.owners?.some(owner => owner.email === session?.user?.email);
   // if (!props.published) {
   //   title = `${title} (Draft)`;
   // }
-
+  const playerProps = {
+    players: props.players,
+    tournamentId: props.id,
+  };
   return (
     <Layout>
       <div>
         <h2>{props.name}</h2>
-        {/* <p>By {props.owner?.name || 'Unknown owner'}</p> */}
+        <p>
+          By <Owners owners={props.owners} />
+        </p>
         <ReactMarkdown children={props.description} />
         {/* {!props.published && userHasValidSession && tournamentBelongsToUser && (
           <button onClick={() => publishTournament(props.id)}>Publish</button>
@@ -58,7 +69,7 @@ const Tournament: React.FC<TournamentProps> = props => {
         {/* {userHasValidSession && tournamentBelongsToUser && (
           <button onClick={() => deleteTournament(props.id)}>Delete</button>
         )} */}
-        {/* <Players></Players> */}
+        <Players {...playerProps} />
         {/* <Teams></Teams> */}
       </div>
       <style jsx>{`
