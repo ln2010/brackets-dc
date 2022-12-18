@@ -8,6 +8,7 @@ import prisma from '../../lib/prisma';
 import { useSession } from 'next-auth/react';
 import Owners from '../../components/Owners';
 import Players from '../../components/Tournament/Players';
+import Title from '../../components/Tournament/Title';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const tournament = await prisma.tournament.findUnique({
@@ -17,9 +18,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     include: {
       players: { select: { id: true, name: true } },
       owners: { select: { id: true, name: true, email: true } },
+      teams: { select: { id: true, name: true } },
     },
   });
-
+  // console.log(JSON.parse(JSON.stringify(tournament)));
   return {
     props: JSON.parse(JSON.stringify(tournament)),
   };
@@ -41,7 +43,6 @@ async function deleteTournament(id: number): Promise<void> {
 
 const Tournament: React.FC<TournamentProps> = props => {
   const { data: session, status } = useSession();
-  // console.log(props);
   if (status === 'loading') {
     return <div>Authenticating ...</div>;
   }
@@ -54,11 +55,18 @@ const Tournament: React.FC<TournamentProps> = props => {
   const playerProps = {
     players: props.players,
     tournamentId: props.id,
+    teamSize: props.teamSize,
+    teams: props.teams,
+    userHasValidSession,
   };
+
   return (
     <Layout>
       <div>
-        <h2>{props.name}</h2>
+        <h1>
+          <Title name={props.name} teamSize={props.teamSize} />
+        </h1>
+        {/* <h2>{props.name}</h2> */}
         <p>
           By <Owners owners={props.owners} />
         </p>
@@ -66,11 +74,10 @@ const Tournament: React.FC<TournamentProps> = props => {
         {/* {!props.published && userHasValidSession && tournamentBelongsToUser && (
           <button onClick={() => publishTournament(props.id)}>Publish</button>
         )} */}
-        {/* {userHasValidSession && tournamentBelongsToUser && (
+        {userHasValidSession && tournamentBelongsToUser && (
           <button onClick={() => deleteTournament(props.id)}>Delete</button>
-        )} */}
+        )}
         <Players {...playerProps} />
-        {/* <Teams></Teams> */}
       </div>
       <style jsx>{`
         .page {

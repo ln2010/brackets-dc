@@ -9,7 +9,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 		case 'GET':
 			// Get data from your database, need guard
 			const id = req.query.tournamentId;
-			console.log('id is ', id);
 			res.status(200).json(
 				await prisma.player.findMany({
 					where: { tournamentId: Number(id) },
@@ -21,11 +20,21 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 			const { tournamentId, name } = req.body;
 
 			const session = await getSession({ req });
+
 			if (session) {
 				const result = await prisma.player.create({
 					data: {
-						tournamentId,
+						tournament: {
+							connect: {
+								id: Number(tournamentId),
+							},
+						},
 						name,
+						createdBy: {
+							connect: {
+								email: session?.user?.email!,
+							},
+						},
 					},
 				});
 				res.json(result);
